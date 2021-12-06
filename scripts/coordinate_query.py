@@ -24,7 +24,7 @@ class Adress():
                                                     & (self.nomenclature_data['PLACA']== self.plaque)]
 
     def get_coordinate(self):
-         '''Return the coordenate of the adress'''
+         '''Return the coordinate of the adress'''
          self.point =  self.data_adress['geom'].iloc[0]
          self.latitude = self.point.x
          self.longitude = self.point.y
