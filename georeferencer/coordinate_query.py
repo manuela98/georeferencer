@@ -1,17 +1,3 @@
-from sqlalchemy import create_engine
-import geopandas as gpd
-import pandas as pd
-
-# connect with database local postgreSQL
-engine = create_engine('postgresql://manuela:5961@localhost:5432/db_georeferencer')
-sql = '''SELECT  geometry AS geom, "VIA", "PLACA" FROM home_nomenclature'''
-data_nomenclature = gpd.GeoDataFrame.from_postgis(sql, con = engine)
-
-# transform data via removing spaces 
-data_nomenclature['VIA'] =  data_nomenclature['VIA'].str.replace(' ', '')
-
-
-
 class Adress():
     '''Class for an adress with properties
     latitude, longitude, ...'''
@@ -32,6 +18,3 @@ class Adress():
         
 
 
-
-adress_example = Adress('CL80C 90A-43', data_nomenclature)
-print(adress_example.get_coordinate())

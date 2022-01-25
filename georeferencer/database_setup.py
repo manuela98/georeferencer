@@ -2,6 +2,15 @@ from sqlalchemy import create_engine
 import geopandas as gpd
 import psycopg2
 
-engine = create_engine('postgresql://gis:gis@localhost:5432/georeferencer')
-nomenclature = gpd.read_file('../tests/Nomenclatura_Domiciliaria.shp')
-nomenclature.to_postgis('home_nomenclature', engine, index = True, index_label='Index')
+def put_postgresql(nomenclature):
+    ''' Put the updated data in the postgresql database'''
+    engine = create_engine('postgresql://gis:gis@localhost:5432/georeferencer')
+    nomenclature.to_postgis('home_nomenclature', engine, index = True, index_label='Index')
+
+
+def connection():
+    '''Connect with database local postgresql'''
+    engine = create_engine('postgresql://gis:gis@localhost:5432/georeferencer')
+    sql = '''SELECT  geometry AS geom, "VIA", "PLACA" FROM home_nomenclature'''
+    data_nomenclature = gpd.GeoDataFrame.from_postgis(sql, con = engine)
+    return data_nomenclature
